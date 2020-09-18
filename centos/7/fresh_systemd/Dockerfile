@@ -2,9 +2,7 @@ FROM centos:7
 
 ENV container docker
 
-# VOLUME [ "/sys/fs/cgroup" ]
-
-RUN yum -y update; yum -y install wget vim net-tools nmon git zsh; \
+RUN yum -y update; yum install -y epel-release ; yum -y install wget vim net-tools nmon git zsh; \
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended; \
 sed -i 's/robbyrussell/af-magic/' ~/.zshrc;
 RUN yum -y install systemd; yum clean all; \
