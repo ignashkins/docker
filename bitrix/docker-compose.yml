@@ -1,0 +1,51 @@
+version: '3'
+
+services:
+    database:
+        container_name: bitrix-database
+        restart: unless-stopped
+        image: mysql:5.7
+        environment:
+            MYSQL_DATABASE: sitemanager
+            MYSQL_ROOT_PASSWORD: bitrix
+            MYSQL_PASSWORD: bitrix
+            MYSQL_USER: bitrix
+            SERVICE_TAGS: dev
+            SERVICE_NAME: mysql
+        networks:
+            - bitrix
+
+    nginx:
+        image: bitrix-nginx
+        user: bitrix
+        container_name: bitrix-nginx
+        restart: unless-stopped
+        build:
+            context: ./
+            dockerfile: nginx/Dockerfile
+        networks:
+            - bitrix
+        ports:
+            - 3000:80
+        volumes:
+            - ./nginx/conf:/etc/nginx
+    apache:
+        image: httpd
+        container_name: bitrix-apache
+        restart: unless-stopped
+        networks:
+            - bitrix
+        volumes:
+            - ./test:/home/bitrix/www
+            - ./apache/conf:/etc/httpd
+    nodejs:
+        image: bitrix-node
+        container_name: bitrix-node
+        build:
+            context: ./
+            dockerfile: node/Dockerfile
+        volumes:
+            - ./node/bitrix.repo:/etc/yum.repos.d/bitrix.repo
+networks:
+    bitrix:
+        driver: bridge

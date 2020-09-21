@@ -1,0 +1,1 @@
+<?php $filesInfo = ["/bitrix/components/bitrix/ui.sidepanel.wrapper/templates/.default/loader.css" => "1599567855587",]; ?>
