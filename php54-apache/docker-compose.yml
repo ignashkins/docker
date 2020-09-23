@@ -1,0 +1,37 @@
+version: '3'
+
+services:
+    database:
+        container_name: delibri-database
+        restart: unless-stopped
+        image: mysql:5.7
+        privileged: true
+        environment:
+            MYSQL_DATABASE: delibri
+            MYSQL_ROOT_PASSWORD: bwe319tuu2
+            MYSQL_PASSWORD: bwe319tuu2
+            MYSQL_USER: ignashkins
+            SERVICE_TAGS: dev
+            SERVICE_NAME: mysql
+        ports:
+            - 3306:3306
+        networks:
+            - delibri
+        volumes:
+            - ./mysql-data:/var/lib/mysql
+    php54:
+        container_name: delibri-app
+        image: ignashkins/php54-apache
+        privileged: true
+        ports:
+            - 3000:80
+        volumes:
+            - /Users/ignashkins/bash/delibri/src:/var/www
+            - ./apache2.conf:/etc/apache2/apache2.conf
+            - ./000-default:/etc/apache2/sites-enabled/000-default
+            - ./dir.conf:/etc/apache2/mods-available/dir.conf
+        networks:
+            - delibri
+networks:
+    delibri:
+        driver: bridge

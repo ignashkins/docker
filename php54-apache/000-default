@@ -1,0 +1,29 @@
+<VirtualHost *:80>
+	ServerAdmin webmaster@localhost
+
+	DocumentRoot /var/www
+	AccessFileName .htaccess
+	<Directory />
+		Options Includes Indexes FollowSymLinks
+          AllowOverride All
+	</Directory>
+	<Directory /var/www/>
+		Options Includes Indexes FollowSymLinks
+        AllowOverride All
+	</Directory>
+
+	ScriptAlias /cgi-bin/ /usr/lib/cgi-bin/
+	<Directory "/usr/lib/cgi-bin">
+		AllowOverride None
+		Options +ExecCGI -MultiViews +SymLinksIfOwnerMatch
+		Order allow,deny
+		Allow from all
+	</Directory>
+
+	# Possible values include: debug, info, notice, warn, error, crit,
+	# alert, emerg.
+	LogLevel debug
+
+	CustomLog ${APACHE_LOG_DIR}/my_access.log combined
+	ErrorLog ${APACHE_LOG_DIR}/my_error.log
+</VirtualHost>
