@@ -1,2 +1,0 @@
-<?php
-$MESS["CRM_AUTOMATION_TRIGGER_SHIPMENT_CHANGED_NAME"] = "Shipment updated";

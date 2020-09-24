@@ -1,6 +1,0 @@
-<?
-return [
-	"utils",
-	"rest",
-	"notify"
-];

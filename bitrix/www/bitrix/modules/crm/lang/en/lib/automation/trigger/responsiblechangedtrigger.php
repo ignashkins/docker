@@ -1,3 +1,0 @@
-<?
-$MESS["CRM_AUTOMATION_TRIGGER_RESPONSIBLE_CHANGED_NAME"] = "Responsible person change";
-?>
