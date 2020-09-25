@@ -1,3 +1,6 @@
 /.idea
 .DS_Store
 /bitrix/www
+/bitrix/database/data/
+/bitrix/apache/conf/logs/access_log
+/bitrix/apache/conf/logs/error_log
