@@ -19,8 +19,6 @@ WORKDIR /usr/lib/systemd/system
 ADD ./push-server.service push-server.service
 RUN chmod 755 ./push-server.service && chown bitrix:bitrix ./push-server.service
 
-RUN /etc/init.d/push-server-multi reset
-
 ADD ./redis.conf /etc/redis.conf
 RUN usermod -g bitrix redis && chown redis:root /etc/redis.conf && chmod 644 /etc/redis.conf
 

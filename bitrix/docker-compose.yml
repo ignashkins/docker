@@ -14,38 +14,59 @@ services:
             SERVICE_NAME: mysql
         networks:
             - bitrix
-
+        ports:
+            - 3306:3306
+        volumes:
+            - ./database/data:/var/lib/mysql
+            - ./database/fresh.sql:/var/lib/mysql/fresh.sql
     nginx:
         image: bitrix-nginx
-        user: bitrix
+        privileged: true
         container_name: bitrix-nginx
-        restart: unless-stopped
         build:
             context: ./
             dockerfile: nginx/Dockerfile
         networks:
             - bitrix
         ports:
-            - 3000:80
+            - 80:80
+            - 8895:8895
         volumes:
             - ./nginx/conf:/etc/nginx
+            - ./www:/home/bitrix/www
+            - ./bitrixenv_error:/var/www/bitrixenv_error
     apache:
-        image: httpd
+        image: php7apache
+        privileged: true
         container_name: bitrix-apache
-        restart: unless-stopped
+        # restart: unless-stopped
+        build:
+            context: ./
+            dockerfile: apache/Dockerfile
         networks:
             - bitrix
         volumes:
-            - ./test:/home/bitrix/www
+            - ./www:/home/bitrix/www
             - ./apache/conf:/etc/httpd
-    nodejs:
+            - ./apache/php.d:/etc/php.d
+        ports:
+            - 8888:8888
+            - 8887:8887
+            - 9887:9887
+    push-server:
         image: bitrix-node
         container_name: bitrix-node
-        build:
-            context: ./
-            dockerfile: node/Dockerfile
-        volumes:
-            - ./node/bitrix.repo:/etc/yum.repos.d/bitrix.repo
+        networks:
+            - bitrix
+        ports:
+            - 8010:8010
+            - 8011:8011
+            - 8012:8012
+            - 8013:8013
+            - 8014:8014
+            - 8015:8015
+            - 9010:9010
+            - 9011:9011
 networks:
     bitrix:
         driver: bridge

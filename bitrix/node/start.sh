@@ -2,12 +2,9 @@
 
 echo "FUCK YOU SPILBERG"
 
+/etc/init.d/push-server-multi reset
 
-/usr/bin/redis-server /etc/redis.conf
-#
-#sleep 2
-#
-#chown redis:bitrix /tmp/redis.sock
+sudo -u redis /usr/bin/redis-server /etc/redis.conf
 
 
 
