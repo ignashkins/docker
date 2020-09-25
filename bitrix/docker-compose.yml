@@ -3,7 +3,6 @@ version: '3'
 services:
     database:
         container_name: bitrix-database
-        restart: unless-stopped
         image: mysql:5.7
         environment:
             MYSQL_DATABASE: sitemanager
@@ -18,14 +17,10 @@ services:
             - 3306:3306
         volumes:
             - ./database/data:/var/lib/mysql
-            - ./database/fresh.sql:/var/lib/mysql/fresh.sql
     nginx:
-        image: bitrix-nginx
+        image: ignashkins/bitrix-nginx
         privileged: true
         container_name: bitrix-nginx
-        build:
-            context: ./
-            dockerfile: nginx/Dockerfile
         networks:
             - bitrix
         ports:
@@ -36,13 +31,9 @@ services:
             - ./www:/home/bitrix/www
             - ./bitrixenv_error:/var/www/bitrixenv_error
     apache:
-        image: php7apache
+        image: ignashkins/bitrix-apache
         privileged: true
         container_name: bitrix-apache
-        # restart: unless-stopped
-        build:
-            context: ./
-            dockerfile: apache/Dockerfile
         networks:
             - bitrix
         volumes:
@@ -54,7 +45,7 @@ services:
             - 8887:8887
             - 9887:9887
     push-server:
-        image: bitrix-node
+        image: ignashkins/bitrix-push-server
         container_name: bitrix-node
         networks:
             - bitrix
